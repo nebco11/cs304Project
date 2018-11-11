@@ -37,7 +37,7 @@ public class textInterface implements ActionListener
     /*
      * constructs login window and loads JDBC driver
      */ 
-    public branch()
+    public textInterface()
     {
       mainFrame = new JFrame("User Login");
 
@@ -209,9 +209,9 @@ public class textInterface implements ActionListener
 		System.out.print("\n\nPlease choose one of the following by using the number as input: \n");
         System.out.print("=====================Basic Commands=====================\n");
 		System.out.print("1.   Insert branch\n");
-		System.out.print("2.   Delete branch\n");
-		System.out.print("3.   Update branch\n");
-		System.out.print("4.   Show branch\n");
+		//System.out.print("2.   Delete branch\n"); TODO
+		//System.out.print("3.   Update branch\n"); TODO
+		//System.out.print("4.   Show branch\n");   TODO
         System.out.print("5.   Quit\n ");
 
 		System.out.print("========================Queries========================\n");
@@ -287,6 +287,7 @@ public class textInterface implements ActionListener
     private void insertBranch()
     {
         boolean insertBack;
+        int choice;
         insertBack = false;
         
     try
@@ -545,8 +546,8 @@ public class textInterface implements ActionListener
             ps.setFloat(2, budget_given);
             
             System.out.print("\nGovernment Department: ");
-            branchmanager = in.readLine();
-            ps.setString(3, branchmanager);
+            government_department = in.readLine();
+            ps.setString(3, government_department);
             
             ps.executeUpdate();
             
@@ -861,8 +862,8 @@ public class textInterface implements ActionListener
             ps.setString(2, type);
             
             System.out.print("\nInstructor: ");
-            fo_address = in.readLine();
-            ps.setString(3, fo_address);
+            instructor = in.readLine();
+            ps.setString(3, instructor);
             
             ps.executeUpdate();
             
@@ -1046,7 +1047,7 @@ public class textInterface implements ActionListener
     }
     
     
-    //TODO all of following
+    /*TODO all of following
     private void query6() {
         
     }
@@ -1081,12 +1082,12 @@ public class textInterface implements ActionListener
         
     }
     
-    
+    */
  
     public static void main(String args[])
     {
         //TODO main
-      branch b = new branch();
+      textInterface b = new textInterface();
     }
 }
 
