@@ -9,13 +9,16 @@ import java.io.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+
 
 
 /*
  * This class implements a graphical login window and a simple text
  * interface for interacting with the branch table 
  */ 
-public class branch implements ActionListener
+public class textInterface implements ActionListener
 {
     // command line reader 
     private BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -227,9 +230,7 @@ public class branch implements ActionListener
 
 
 		choice = Integer.parseInt(in.readLine());
-		
 		System.out.println(" ");
-
 		switch(choice)
 		{
 		    case 1:  insertBranch(); break;
@@ -282,20 +283,96 @@ public class branch implements ActionListener
     /*
      * inserts a branch
      */
-    //TODO Finish
+    //TODO Finished just needs to be tested and error handled
     private void insertBranch()
     {
-	//TODO params for insert
-	PreparedStatement  ps;
-	  
+        boolean insertBack;
+        insertBack = false;
+        
+    try
+        {
+        while (!insertBack)
+        {
+            System.out.print("Welcome to the insert menu! Please select one of the tables below to insert into!\n");
+            System.out.print("1.   ------Government\n");
+            System.out.print("2.   ------Support_Branch\n");
+            System.out.print("3.   ------Client\n");
+            System.out.print("4.   ------Support\n");
+            System.out.print("5.   ------isGiven\n");
+            System.out.print("6.   ------Finance_Office\n");
+            System.out.print("7.   ------Partners\n");
+            System.out.print("8.   ------Taxpayer\n");
+            System.out.print("9.   ------Monetary_Assistance\n");
+            System.out.print("10.  ------Employment_Training\n");
+            System.out.print("11.  ------Facilitate\n");
+
+            System.out.print("12.  ------Back to main menu\n ");
+            
+            
+            choice = Integer.parseInt(in.readLine());
+            System.out.println(" ");
+            switch(choice)
+            {
+                case 1:  insertGovernment(); break;
+                case 2:  insertSupport_Branch(); break;
+                case 3:  insertClient(); break;
+                case 4:  insertSupport(); break;
+                case 5:  insertisGiven(); break;
+                case 6:  insertFinance_Office(); break;
+                case 7:  insertPartners(); break;
+                case 8:  insertTaxpayer(); break;
+                case 9:  insertMonetary_Assistance(); break;
+                case 10:  insertEmployment_Training(); break;
+                case 11:  insertFacilitate(); break;
+
+                case 12:  insertBack = true;
+                    
+            }
+        }
+        }
+            catch (IOException e)
+            {
+                System.out.println("IOException!");
+                
+                try
+                {
+                    con.close();
+                    System.exit(-1);
+                    //TODO error handling so it doesn't close on error
+                    //needed for a good demo
+                }
+                catch (SQLException ex)
+                {
+                    System.out.println("Message: " + ex.getMessage());
+                }
+            }
+            catch (SQLException ex)
+            {
+                System.out.println("Message: " + ex.getMessage());
+            }
+        }
+    
+    private void insertGovernment() {
+        String  department;
+        String head_of_dep;
+        String division;
+        PreparedStatement  ps;
+    
 	try
 	{
-	  ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?)");
-	//TODO body for insert
+	  ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+        
+        System.out.print("\nGovernment department: ");
+        department = in.readLine();
+        ps.setString(1, department);
+        System.out.print("\nGovernment head of deparment: ");
+        head_of_dep = in.readLine();
+        ps.setString(2, head_of_dep);
+        System.out.print("\nGovernment division: ");
+        division = in.readLine();
+        ps.setString(3, division);
+	    ps.executeUpdate();
 
-	  ps.executeUpdate();
-
-	  // commit work 
 	  con.commit();
 
 	  ps.close();
@@ -320,8 +397,544 @@ public class branch implements ActionListener
 	    }
 	}
     }
-
-
+    private void insertSupport_Branch() {
+        String address;
+        String city;
+        String branchmanager;
+        String g_department;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            
+            System.out.print("\nSupport Branch address: ");
+            address = in.readLine();
+            ps.setString(1, address);
+            System.out.print("\nSupport Branch city: ");
+            city = in.readLine();
+            ps.setString(2, city);
+            System.out.print("\nSupport Branch manager: ");
+            branchmanager = in.readLine();
+            ps.setString(3, branchmanager);
+            System.out.print("\nSupport Branch Government deparment (can't be null): ");
+            g_department = in.readLine();
+            ps.setString(4, g_department);
+            
+    
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertClient() {
+        String nameC;
+        String addressC;
+        String phoneC;
+        int sinC;
+        String sb_city;
+        String sb_address;
+        //date d_requested; this is declared below
+        String t_requested;
+        PreparedStatement  ps;
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?,?,?,?)");
+            
+            System.out.print("\nClient name: ");
+            nameC = in.readLine();
+            ps.setString(1, nameC);
+            
+            System.out.print("\nClient address: ");
+            addressC = in.readLine();
+            ps.setString(2, addressC);
+            
+            System.out.print("\nClient phone: ");
+            phoneC = in.readLine();
+            ps.setString(3, phoneC);
+            
+            System.out.print("\nClient SIN: ");
+            sinC = Integer.parseInt(in.readLine());
+            ps.setInt(4, sinC);
+            
+            System.out.print("\nCity of Client's support branch: ");
+            sb_city = in.readLine();
+            ps.setString(5, sb_city);
+            
+            System.out.print("\nAddress of Client's support branch: ");
+            sb_address = in.readLine();
+            ps.setString(6, sb_address);
+            
+            //TODO this might not be working...
+            //UPDATE is working!
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            System.out.print("\nDate requested: ");
+            java.util.Date dateUtil = sdf1.parse(in.readLine());
+            java.sql.Date d_requested = new java.sql.Date(dateUtil.getTime());
+            
+            ps.setDate(7, d_requested);
+            
+            System.out.print("\nTime requested: ");
+            t_requested = in.readLine();
+            ps.setString(8, t_requested);
+            
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertSupport() {
+        int supportID;
+        float budget_given; //not null or error in setFloat
+        String government_department; //not null
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            
+            System.out.print("\nSupport ID: ");
+            supportID = Integer.parseInt(in.readLine());
+            ps.setInt(1, supportID);
+            
+            System.out.print("\nBudget Given: ");
+            budget_given = Float.valueOf(in.readLine());
+            ps.setFloat(2, budget_given);
+            
+            System.out.print("\nGovernment Department: ");
+            branchmanager = in.readLine();
+            ps.setString(3, branchmanager);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertisGiven() {
+        int SINisGiven;
+        int supIDisGiven;
+        //DATE declared below
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            
+            System.out.print("\nSIN: ");
+            SINisGiven = Integer.parseInt(in.readLine());
+            ps.setInt(1, SINisGiven);
+            
+            System.out.print("\nSupport ID: ");
+            supIDisGiven = Integer.parseInt(in.readLine());
+            ps.setInt(2, supIDisGiven);
+            
+            
+            //TODO this might not be working...
+            //UPDATE is working!
+            SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
+            System.out.print("\nDate given: ");
+            java.util.Date dateUtil = sdf1.parse(in.readLine());
+            java.sql.Date d_given = new java.sql.Date(dateUtil.getTime());
+            ps.setDate(3, d_given);
+            
+            ps.executeUpdate();
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertFinance_Office() {
+        String  g_department;
+        String fo_city;
+        String fo_address;
+        String fo_omanager;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            
+            System.out.print("\nGovernment department: ");
+            g_department = in.readLine();
+            ps.setString(1, g_department);
+            
+            System.out.print("\nCity: ");
+            fo_city = in.readLine();
+            ps.setString(2, fo_city);
+            
+            System.out.print("\nAddress: ");
+            fo_address = in.readLine();
+            ps.setString(3, fo_address);
+            
+            System.out.print("\nOffice manager: ");
+            fo_omanager = in.readLine();
+            ps.setString(4, fo_omanager);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+        
+        
+    }
+    private void insertPartners() {
+        String  g_department; //not null
+        String comp_name;
+        String industry;
+        int partnerID;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            
+            System.out.print("\nGovernment department: ");
+            g_department = in.readLine();
+            ps.setString(1, g_department);
+            
+            System.out.print("\nCompany name: ");
+            comp_name = in.readLine();
+            ps.setString(2, comp_name);
+            
+            System.out.print("\nIndustry: ");
+            industry = in.readLine();
+            ps.setString(3, industry);
+            
+            System.out.print("\nOffice manager: ");
+            partnerID = Integer.parseInt(in.readLine());
+            ps.setInt(4, partnerID);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertTaxpayer() {
+        int sintp;
+        String g_department; //not null
+        String name;
+        String addressT;
+        String phoneT;
+        float amount_paid;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?,?)");
+            
+            
+            System.out.print("\nSIN: ");
+            sintp = Integer.parseInt(in.readLine());
+            ps.setInt(1, sintp);
+            
+            System.out.print("\nGovernment department: ");
+            g_department = in.readLine();
+            ps.setString(2, g_department);
+            
+            System.out.print("\nName: ");
+            name = in.readLine();
+            ps.setString(3, name);
+            
+            System.out.print("\nAddress: ");
+            addressT = in.readLine();
+            ps.setString(4, addressT);
+            
+            System.out.print("\nPhone: ");
+            phoneT = in.readLine();
+            ps.setString(5, phoneT);
+            
+            System.out.print("\nAmount paid: ");
+            amount_paid = Float.valueOf(in.readLine());
+            ps.setFloat(6, amount_paid);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertMonetary_Assistance() {
+        int  supID;
+        float amount;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?)");
+            
+            System.out.print("\nSupport ID: ");
+            supID = Integer.parseInt(in.readLine());
+            ps.setInt(1, supID);
+            
+            System.out.print("\nAmount in $: ");
+            amount = Float.valueOf(in.readLine());
+            ps.setFloat(2, amount);
+            
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertEmployment_Training() {
+        int  supID;
+        String type;
+        String instructor;
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            
+            System.out.print("\nSupport ID: ");
+            supID = Integer.parseInt(in.readLine());
+            ps.setInt(1, supID);
+            
+            System.out.print("\nType: ");
+            type = in.readLine();
+            ps.setString(2, type);
+            
+            System.out.print("\nInstructor: ");
+            fo_address = in.readLine();
+            ps.setString(3, fo_address);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    private void insertFacilitate() {
+        int  partnerID;
+        int supID;
+        
+        PreparedStatement  ps;
+        
+        try
+        {
+            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?)");
+            
+            System.out.print("\nPartner ID: ");
+            partnerID = Integer.parseInt(in.readLine());
+            ps.setInt(1, partnerID);
+            
+            System.out.print("\nSupport ID: ");
+            supID = Integer.parseInt(in.readLine());
+            ps.setInt(2, supID);
+            
+            ps.executeUpdate();
+            
+            con.commit();
+            
+            ps.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            try
+            {
+                // undo the insert
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                //TODO error handling
+                System.exit(-1);
+            }
+        }
+    }
+    
     /*
      * deletes a branch
      */
