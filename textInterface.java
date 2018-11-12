@@ -235,8 +235,8 @@ public class textInterface implements ActionListener
 		{
 		    case 1:  insert(); break;
 		    case 2:  delete(); break;
-		    case 3:  updateBranch(); break;
-		    case 4:  showBranch(); break;
+		    //case 3:  updateBranch(); break;
+		    //case 4:  showBranch(); break;
 		    case 5:  quit = true;
             //case 6:  TODO
             //case 7:  TODO
@@ -347,10 +347,7 @@ public class textInterface implements ActionListener
                     System.out.println("Message: " + ex.getMessage());
                 }
             }
-            catch (SQLException ex)
-            {
-                System.out.println("Message: " + ex.getMessage());
-            }
+        
         }
     
     private void insertGovernment() {
@@ -491,10 +488,16 @@ public class textInterface implements ActionListener
             //UPDATE is working!
             SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
             System.out.print("\nDate requested: ");
+            try {
             java.util.Date dateUtil = sdf1.parse(in.readLine());
             java.sql.Date d_requested = new java.sql.Date(dateUtil.getTime());
+                ps.setDate(7, d_requested);
+            }
+            catch (Exception pe) {
+                System.out.println("ParseException!");
+            }
             
-            ps.setDate(7, d_requested);
+            
             
             System.out.print("\nTime requested: ");
             t_requested = in.readLine();
@@ -598,9 +601,17 @@ public class textInterface implements ActionListener
             //UPDATE is working!
             SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
             System.out.print("\nDate given: ");
+            try{
+                
+            
             java.util.Date dateUtil = sdf1.parse(in.readLine());
             java.sql.Date d_given = new java.sql.Date(dateUtil.getTime());
-            ps.setDate(3, d_given);
+                ps.setDate(3, d_given);
+
+            }
+            catch (Exception pe) {
+                System.out.println("ParseException!");
+            }
             
             ps.executeUpdate();
             con.commit();
@@ -991,22 +1002,10 @@ public class textInterface implements ActionListener
         {
             System.out.println("IOException!");
             
-            try
-            {
-                con.close();
-                System.exit(-1);
-                //TODO error handling so it doesn't close on error
-                //needed for a good demo
-            }
-            catch (SQLException ex)
-            {
-                System.out.println("Message: " + ex.getMessage());
-            }
+            deleteBack = true;
+            
         }
-        catch (SQLException ex)
-        {
-            System.out.println("Message: " + ex.getMessage());
-        }
+        
     }
     private void deleteHelper(String tableDel, String primKey, String primKey2, String primKey3) {
         String primKeyData;
@@ -1106,6 +1105,7 @@ public class textInterface implements ActionListener
      * updates the name of a branch
      */
     //TODO Finish
+    /*
     private void updateBranch()
     {
 	//TODO params for update
@@ -1141,11 +1141,13 @@ public class textInterface implements ActionListener
 	}	
     }
 
+     */
     
     /*
      * display information about branches
      */ 
     //TODO finish
+    /*
     private void showBranch()
     {
 	//TODO params for show
@@ -1172,6 +1174,9 @@ public class textInterface implements ActionListener
 	    System.out.println("Message: " + ex.getMessage());
 	}	
     }
+     
+     
+     */
     
     
     /*TODO all of following
