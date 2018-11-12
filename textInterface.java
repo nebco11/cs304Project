@@ -208,8 +208,8 @@ public class textInterface implements ActionListener
 
 		System.out.print("\n\nPlease choose one of the following by using the number as input: \n");
         System.out.print("=====================Basic Commands=====================\n");
-		System.out.print("1.   Insert branch\n");
-		//System.out.print("2.   Delete branch\n"); TODO
+        System.out.print("1.   Insert Menu\n"); //DONE: NEEDS TESTING
+        System.out.print("2.   Delete Menu\n"); //DONE: NEEDS TESTING
 		//System.out.print("3.   Update branch\n"); TODO
 		//System.out.print("4.   Show branch\n");   TODO
         System.out.print("5.   Quit\n ");
@@ -233,8 +233,8 @@ public class textInterface implements ActionListener
 		System.out.println(" ");
 		switch(choice)
 		{
-		    case 1:  insertBranch(); break;
-		    case 2:  deleteBranch(); break;
+		    case 1:  insert(); break;
+		    case 2:  delete(); break;
 		    case 3:  updateBranch(); break;
 		    case 4:  showBranch(); break;
 		    case 5:  quit = true;
@@ -284,7 +284,7 @@ public class textInterface implements ActionListener
      * inserts a branch
      */
     //TODO Finished just needs to be tested and error handled
-    private void insertBranch()
+    private void insert()
     {
         boolean insertBack;
         int choice;
@@ -939,41 +939,168 @@ public class textInterface implements ActionListener
     /*
      * deletes a branch
      */
-    //TODO Finish
-    private void deleteBranch()
+    //TODO TEST
+    private void delete()
     {
-	//TODO params for delete
-	PreparedStatement  ps;
-	  
-	try
-	{
-	  ps = con.prepareStatement("DELETE FROM branch WHERE branch_id = ?");
-	 //TODO body for delete
-	  con.commit();
-
-	  ps.close();
-	}
-	catch (IOException e)
-	{
-	    System.out.println("IOException!");
-	}
-	catch (SQLException ex)
-	{
-	    System.out.println("Message: " + ex.getMessage());
-
-            try 
-	    {
-		con.rollback();	
-	    }
-	    catch (SQLException ex2)
-	    {
-		System.out.println("Message: " + ex2.getMessage());
-            //TODO error handling
-		System.exit(-1);
-	    }
-	}
+        boolean deleteBack;
+        int choice;
+        deleteBack = false;
+        
+        try
+        {
+            while (!deleteBack)
+            {
+                System.out.print("Welcome to the delete menu! Please select one of the tables below to delete entries from!\n");
+                System.out.print("1.   ------Government\n");
+                System.out.print("2.   ------Support_Branch\n");
+                System.out.print("3.   ------Client\n");
+                System.out.print("4.   ------Support\n");
+                System.out.print("5.   ------isGiven\n");
+                System.out.print("6.   ------Finance_Office\n");
+                System.out.print("7.   ------Partners\n");
+                System.out.print("8.   ------Taxpayer\n");
+                System.out.print("9.   ------Monetary_Assistance\n");
+                System.out.print("10.  ------Employment_Training\n");
+                System.out.print("11.  ------Facilitate\n");
+                
+                System.out.print("12.  ------Back to main menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  deleteHelper("Government", "department", "NULL", "NULL"); break;
+                    case 2:  deleteHelper("Support_Branch", "address", "city", "NULL"); break;
+                    case 3:  deleteHelper("Client", "SIN", "NULL", "NULL"); break;
+                    case 4:  deleteHelper("Support", "supportID", "NULL", "NULL"); break;
+                    case 5:  deleteHelper("isGiven", "SIN", "supportID", "NULL"); break;
+                    case 6:  deleteHelper("Finance_Office", "Government_department", "city", "address"); break;
+                    case 7:  deleteHelper("Partners", "partnerID", "NULL", "NULL"); break;
+                    case 8:  deleteHelper("Taxpayer", "SIN", "NULL", "NULL"); break;
+                    case 9:  deleteHelper("Monetary_Assistance", "supportID", "NULL", "NULL"); break;
+                    case 10:  deleteHelper("Employment_Training", "supportID", "NULL", "NULL"); break;
+                    case 11:  deleteHelper("Facilitate", "partnerID", "supportID", "NULL"); break;
+                        
+                    case 12:  deleteBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            try
+            {
+                con.close();
+                System.exit(-1);
+                //TODO error handling so it doesn't close on error
+                //needed for a good demo
+            }
+            catch (SQLException ex)
+            {
+                System.out.println("Message: " + ex.getMessage());
+            }
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
     }
-    
+    private void deleteHelper(String tableDel, String primKey, String primKey2, String primKey3) {
+        String primKeyData;
+        String primKeyData2;
+        String primKeyData3;
+        PreparedStatement  ps;
+        try {
+            if (primKey2 == "NULL" && primKey3 == "NULL")
+            {
+            ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ?");
+            System.out.print("\n" + tableDel + " " + primKey + ": ");
+            primKeyData = in.readLine();
+            ps.setString(1, primKeyData);
+
+            int rowCount = ps.executeUpdate();
+            
+            if (rowCount == 0)
+            {
+                System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + " does not exist!");
+            }
+            
+            con.commit();
+            
+            ps.close();
+            }
+            else if (primKey3 == "NULL") {
+                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ? AND " + primKey2 + " = ?");
+                System.out.print("\n" + tableDel + " " + primKey + ": ");
+                primKeyData = in.readLine();
+                ps.setString(1, primKeyData);
+                
+                System.out.print("\n" + tableDel + " " + primKey2 + ": ");
+                primKeyData2 = in.readLine();
+                ps.setString(2, primKeyData2);
+                
+                int rowCount = ps.executeUpdate();
+                
+                if (rowCount == 0)
+                {
+                    System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + ", "+ primKey2 + ": "+ primKeyData2 + " does not exist!");
+                }
+                
+                con.commit();
+                
+                ps.close();
+                
+            } else {
+                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ? AND " + primKey2 + " = ? AND " + primKey3 + " = ?");
+                System.out.print("\n" + tableDel + " " + primKey + ": ");
+                primKeyData = in.readLine();
+                ps.setString(1, primKeyData);
+                
+                System.out.print("\n" + tableDel + " " + primKey2 + ": ");
+                primKeyData2 = in.readLine();
+                ps.setString(2, primKeyData2);
+                
+                System.out.print("\n" + tableDel + " " + primKey3 + ": ");
+                primKeyData3 = in.readLine();
+                ps.setString(3, primKeyData3);
+                
+                int rowCount = ps.executeUpdate();
+                
+                if (rowCount == 0)
+                {
+                    System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + ", "+ primKey2 + ": "+ primKeyData2 + ", "+ primKey3 + ": "+ primKeyData3 + " does not exist!");
+                }
+                
+                con.commit();
+                
+                ps.close();
+                
+                
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+            
+            try
+            {
+                con.rollback();
+            }
+            catch (SQLException ex2)
+            {
+                System.out.println("Message: " + ex2.getMessage());
+                System.exit(-1);
+                //TODO error handling
+            }
+        }
+    }
 
     /*
      * updates the name of a branch
