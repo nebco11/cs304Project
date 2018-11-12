@@ -358,7 +358,7 @@ public class textInterface implements ActionListener
     
 	try
 	{
-	  ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+	  ps = con.prepareStatement("INSERT INTO Government VALUES (?,?,?)");
         
         System.out.print("\nGovernment department: ");
         department = in.readLine();
@@ -369,6 +369,7 @@ public class textInterface implements ActionListener
         System.out.print("\nGovernment division: ");
         division = in.readLine();
         ps.setString(3, division);
+        
 	    ps.executeUpdate();
 
 	  con.commit();
@@ -404,7 +405,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Support_Branch VALUES (?,?,?,?)");
             
             System.out.print("\nSupport Branch address: ");
             address = in.readLine();
@@ -458,7 +459,7 @@ public class textInterface implements ActionListener
         PreparedStatement  ps;
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Client VALUES (?,?,?,?,?,?,?,?)");
             
             System.out.print("\nClient name: ");
             nameC = in.readLine();
@@ -499,7 +500,7 @@ public class textInterface implements ActionListener
             
             
             
-            System.out.print("\nTime requested: ");
+            System.out.print("\nType of aid requested: ");
             t_requested = in.readLine();
             ps.setString(8, t_requested);
             
@@ -538,7 +539,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Support VALUES (?,?,?)");
             
             System.out.print("\nSupport ID: ");
             supportID = Integer.parseInt(in.readLine());
@@ -586,7 +587,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            ps = con.prepareStatement("INSERT INTO isGiven VALUES (?,?,?)");
             
             System.out.print("\nSIN: ");
             SINisGiven = Integer.parseInt(in.readLine());
@@ -647,7 +648,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Finance_Office VALUES (?,?,?,?)");
             
             System.out.print("\nGovernment department: ");
             g_department = in.readLine();
@@ -702,7 +703,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Partners VALUES (?,?,?,?)");
             
             System.out.print("\nGovernment department: ");
             g_department = in.readLine();
@@ -716,7 +717,7 @@ public class textInterface implements ActionListener
             industry = in.readLine();
             ps.setString(3, industry);
             
-            System.out.print("\nOffice manager: ");
+            System.out.print("\nPartner ID: ");
             partnerID = Integer.parseInt(in.readLine());
             ps.setInt(4, partnerID);
             
@@ -757,7 +758,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?,?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Taxpayer VALUES (?,?,?,?,?,?)");
             
             
             System.out.print("\nSIN: ");
@@ -817,7 +818,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?)");
+            ps = con.prepareStatement("INSERT INTO Monetary_Assistance VALUES (?,?)");
             
             System.out.print("\nSupport ID: ");
             supID = Integer.parseInt(in.readLine());
@@ -862,7 +863,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?,?)");
+            ps = con.prepareStatement("INSERT INTO Employment_Training VALUES (?,?,?)");
             
             System.out.print("\nSupport ID: ");
             supID = Integer.parseInt(in.readLine());
@@ -910,7 +911,7 @@ public class textInterface implements ActionListener
         
         try
         {
-            ps = con.prepareStatement("INSERT INTO branch VALUES (?,?)");
+            ps = con.prepareStatement("INSERT INTO Facilitate VALUES (?,?)");
             
             System.out.print("\nPartner ID: ");
             partnerID = Integer.parseInt(in.readLine());
@@ -950,7 +951,7 @@ public class textInterface implements ActionListener
     /*
      * deletes a branch
      */
-    //TODO TEST
+    //TODO not working - need to add case for when pk is not just a string
     private void delete()
     {
         boolean deleteBack;
