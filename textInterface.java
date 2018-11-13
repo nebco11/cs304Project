@@ -210,22 +210,23 @@ public class textInterface implements ActionListener
         System.out.print("=====================Basic Commands=====================\n");
         System.out.print("1.   Insert Menu\n"); //DONE: NEEDS ERROR HANDLING
         System.out.print("2.   Delete Menu\n"); //DONE: NEEDS ERROR HANDLING
-		//System.out.print("3.   Update branch\n"); TODO
-		System.out.print("4.   Show Menu\n");
-        System.out.print("5.   Quit\n ");
+		System.out.print("3.   Show Menu\n");
+        System.out.print("4.   Quit\n ");
 
-		System.out.print("========================Queries========================\n");
-        //System.out.print("6.   TODO ");
-        //System.out.print("7.   TODO ");
+		System.out.print("========================User Menu========================\n");
+        System.out.print("5.   Government Queries\n");
+        System.out.print("6.   Taxpayer Queries\n");
+        System.out.print("7.   Partner Queries\n");
+        System.out.print("========================General Queries========================\n");
         //System.out.print("8.   TODO ");
-        //System.out.print("9.   TODO ");
+        //System.out.print("9.  TODO ");
         //System.out.print("10.  TODO ");
+
         //System.out.print("11.  TODO ");
         //System.out.print("12.  TODO ");
         //System.out.print("13.  TODO ");
         //System.out.print("14.  TODO ");
         //System.out.print("15.  TODO ");
-        //System.out.print("16.  TODO ");
 
 
 
@@ -235,11 +236,12 @@ public class textInterface implements ActionListener
 		{
 		    case 1:  insert(); break;
 		    case 2:  delete(); break;
-		    //case 3:  updateBranch(); break;
-		    case 4:  show(); break;
-		    case 5:  quit = true;
-            //case 6:  TODO
-            //case 7:  TODO
+		    case 3:  show(); break;
+		    case 4:  quit = true;
+            case 5:  governmentQ(); break;
+            case 6:  taxpayerQ(); break;
+            case 7: partnerQ(); break;
+
             //case 8:  TODO
             //case 9:  TODO
             //case 10: TODO
@@ -248,7 +250,6 @@ public class textInterface implements ActionListener
             //case 13: TODO
             //case 14: TODO
             //case 15: TODO
-            //case 16: TODO
 		}
 	    }
 
@@ -951,7 +952,6 @@ public class textInterface implements ActionListener
     /*
      * deletes a branch
      */
-    //TODO not working - need to add case for when pk is not just a string
     private void delete()
     {
         boolean deleteBack;
@@ -1114,53 +1114,10 @@ public class textInterface implements ActionListener
         }
     }
 
-    /*
-     * updates the name of a branch
-     */
-    //TODO Finish
-    /*
-    private void updateBranch()
-    {
-	//TODO params for update
-	PreparedStatement  ps;
-	  
-	try
-	{
-	  ps = con.prepareStatement("UPDATE branch SET branch_name = ? WHERE branch_id = ?");
-	 //TODO body for update
-
-	  con.commit();
-
-	  ps.close();
-	}
-	catch (IOException e)
-	{
-	    System.out.println("IOException!");
-	}
-	catch (SQLException ex)
-	{
-	    System.out.println("Message: " + ex.getMessage());
-	    
-	    try 
-	    {
-		con.rollback();	
-	    }
-	    catch (SQLException ex2)
-	    {
-		System.out.println("Message: " + ex2.getMessage());
-            //TODO error handling
-		System.exit(-1);
-	    }
-	}	
-    }
-
-     */
     
     /*
      * display information about branches
-     */ 
-    //TODO finish
-    
+     */
     private void show()
     {
         boolean showBack;
@@ -2004,16 +1961,130 @@ public class textInterface implements ActionListener
     
     
     
-    /*TODO all of following
-    private void query6() {
+    private void governmentQ() {
+        boolean governmentBack;
+        int choice;
+        governmentBack = false;
         
+        try
+        {
+            while (!governmentBack)
+            {
+                System.out.print("Welcome to the Government Employee Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------GQ1\n");
+                System.out.print("2.   ------GQ2\n");
+                System.out.print("3.   ------GQ3\n");
+                System.out.print("4.   ------GQ4\n");
+                
+                System.out.print("5.  ------Back to menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  ; break;
+                    case 2:  ; break;
+                    case 3:  ; break;
+                    case 4:  ; break;
+                        
+                    case 5:  governmentBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            governmentBack = true;
+            
+        }
     }
-    private void query7() {
+    
+    
+    
+    private void taxpayerQ() {
+        boolean taxpayerBack;
+        int choice;
+        taxpayerBack = false;
         
+        try
+        {
+            while (!taxpayerBack)
+            {
+                System.out.print("Welcome to the Taxpayer Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------TQ1\n");
+                System.out.print("2.   ------TQ2\n");
+                System.out.print("3.   ------TQ3\n");
+                System.out.print("4.   ------TQ4\n");
+                
+                System.out.print("5.  ------Back to menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  ; break;
+                    case 2:  ; break;
+                    case 3:  ; break;
+                    case 4:  ; break;
+                        
+                    case 5:  taxpayerBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            taxpayerBack = true;
+            
+        }
     }
-    private void query8() {
+    private void partnerQ() {
+        boolean partnerBack;
+        int choice;
+        partnerBack = false;
         
+        try
+        {
+            while (!partnerBack)
+            {
+                System.out.print("Welcome to the Partner company Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------PQ1\n");
+                System.out.print("2.   ------PQ2\n");
+                System.out.print("3.   ------PQ3\n");
+                System.out.print("4.   ------PQ4\n");
+                
+                System.out.print("5.  ------Back to menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  ; break;
+                    case 2:  ; break;
+                    case 3:  ; break;
+                    case 4:  ; break;
+                        
+                    case 5:  partnerBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            partnerBack = true;
+            
+        }
     }
+    /* TODO all of the following
     private void query9() {
         
     }
