@@ -208,10 +208,10 @@ public class textInterface implements ActionListener
 
 		System.out.print("\n\nPlease choose one of the following by using the number as input: \n");
         System.out.print("=====================Basic Commands=====================\n");
-        System.out.print("1.   Insert Menu\n"); //DONE: NEEDS TESTING
-        System.out.print("2.   Delete Menu\n"); //DONE: NEEDS TESTING
+        System.out.print("1.   Insert Menu\n"); //DONE: NEEDS ERROR HANDLING
+        System.out.print("2.   Delete Menu\n"); //DONE: NEEDS ERROR HANDLING
 		//System.out.print("3.   Update branch\n"); TODO
-		//System.out.print("4.   Show branch\n");   TODO
+		System.out.print("4.   Show Menu\n");
         System.out.print("5.   Quit\n ");
 
 		System.out.print("========================Queries========================\n");
@@ -236,7 +236,7 @@ public class textInterface implements ActionListener
 		    case 1:  insert(); break;
 		    case 2:  delete(); break;
 		    //case 3:  updateBranch(); break;
-		    //case 4:  showBranch(); break;
+		    case 4:  show(); break;
 		    case 5:  quit = true;
             //case 6:  TODO
             //case 7:  TODO
@@ -1160,36 +1160,848 @@ public class textInterface implements ActionListener
      * display information about branches
      */ 
     //TODO finish
-    /*
-    private void showBranch()
+    
+    private void show()
     {
-	//TODO params for show
-	Statement  stmt;
-	ResultSet  rs;
-	   
-	try
-	{
-	  System.out.println(" ");
-	  while(rs.next())
-	  {
-          //TODO finish while loop for results
-	      // for display purposes get everything from Oracle 
-	      // as a string
-	      // simplified output formatting; truncation may occur
-	  }
- 
-	  // close the statement; 
-	  // the ResultSet will also be closed
-	  stmt.close();
-	}
-	catch (SQLException ex)
-	{
-	    System.out.println("Message: " + ex.getMessage());
-	}	
+        boolean showBack;
+        int choice;
+        showBack = false;
+        
+        try
+        {
+            while (!showBack)
+            {
+                System.out.print("Welcome to the Show menu! Please select one of the tables below to display!\n");
+                System.out.print("1.   ------Government\n");
+                System.out.print("2.   ------Support_Branch\n");
+                System.out.print("3.   ------Client\n");
+                System.out.print("4.   ------Support\n");
+                System.out.print("5.   ------isGiven\n");
+                System.out.print("6.   ------Finance_Office\n");
+                System.out.print("7.   ------Partners\n");
+                System.out.print("8.   ------Taxpayer\n");
+                System.out.print("9.   ------Monetary_Assistance\n");
+                System.out.print("10.  ------Employment_Training\n");
+                System.out.print("11.  ------Facilitate\n");
+                
+                System.out.print("12.  ------Back to main menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  showGovernment(); break;
+                    case 2:  showSupport_Branch(); break;
+                    case 3:  showClient(); break;
+                    case 4:  showSupport(); break;
+                    case 5:  showisGiven(); break;
+                    case 6:  showFinance_Office(); break;
+                    case 7:  showPartners(); break;
+                    case 8:  showTaxpayer(); break;
+                    case 9:  showMonetary_Assistance(); break;
+                    case 10:  showEmployment_Training(); break;
+                    case 11:  showFacilitate(); break;
+                        
+                    case 12:  showBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            try
+            {
+                con.close();
+                System.exit(-1);
+                //TODO error handling so it doesn't close on error
+                //needed for a good demo
+            }
+            catch (SQLException ex)
+            {
+                System.out.println("Message: " + ex.getMessage());
+            }
+        }
+        
     }
-     
-     
-     */
+    private void showGovernment() {
+        String department;
+        String head_of_dep;
+        String division;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Government");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                department = rs.getString("department");
+                System.out.printf("%-20.10s", department);
+                
+                head_of_dep = rs.getString("head_of_department");
+                System.out.printf("%-20.10s", head_of_dep);
+                
+                //if it can be null do this
+                division = rs.getString("division");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s \n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s \n", division);
+                }
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    
+    private void showSupport_Branch() {
+        String address;
+        String city;
+        String branchmanager;
+        String g_department;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Support_Branch");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                address = rs.getString("address");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", address);
+                }
+                
+                city = rs.getString("city");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", city);
+                }
+                
+                //if it can be null do this
+                branchmanager = rs.getString("BranchManager");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", branchmanager);
+                }
+                
+                g_department = rs.getString("g_department");
+                System.out.printf("%-20.10s \n", g_department);
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showClient() {
+        String name;
+        String address;
+        String phoneC;
+        String sinC;
+        String sb_city;
+        String sb_address;
+        String d_requested;
+        String type;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Client");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                name = rs.getString("name");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", name);
+                }
+                
+                address = rs.getString("address");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", address);
+                }
+                
+                //if it can be null do this
+                phoneC = rs.getString("phone#");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", phoneC);
+                }
+                
+                sinC = rs.getString("SIN");
+                System.out.printf("%-20.10s", sinC);
+                
+                sb_city = rs.getString("sb_city");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", sb_city);
+                }
+                sb_address = rs.getString("sb_address");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", sb_address);
+                }
+                d_requested = rs.getString("date_requested");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", d_requested);
+                }
+                type = rs.getString("type_requested");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s\n", type);
+                }
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showSupport() {
+        String supportID;
+        String budget_given;
+        String g_department;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Support");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-20.10s", supportID);
+                
+                budget_given = rs.getString("budget_given");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", budget_given);
+                }
+                
+                //if it can be null do this
+                g_department = rs.getString("Government_department");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s \n", g_department);
+                }
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showisGiven() {
+        String SINisGiven;
+        String supportID;
+        String date_given;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM isGiven");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                SINisGiven = rs.getString("SIN");
+                System.out.printf("%-20.10s", SINisGiven);
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-20.10s", supportID);
+                
+                //if it can be null do this
+                date_given = rs.getString("date_Given");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s \n", date_given);
+                }
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showFinance_Office() {
+        String Government_department;
+        String city;
+        String address;
+        String officeManager;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Finance_Office");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                Government_department = rs.getString("Government_department");
+                System.out.printf("%-30.10s", Government_department);
+                
+                city = rs.getString("city");
+                System.out.printf("%-30.10s", city);
+                
+                address = rs.getString("address");
+                System.out.printf("%-30.10s", address);
+                
+                officeManager = rs.getString("officeManager");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-30.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-30.10s \n", officeManager);
+                }
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showPartners() {
+        String Government_department; //not null
+        String comp_name;
+        String industry;
+        String partnerID;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Partners");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                Government_department = rs.getString("Government_department");
+                System.out.printf("%-30.10s", Government_department);
+                
+                comp_name = rs.getString("companyName");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-30.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-30.10s", comp_name);
+                }
+                
+                industry = rs.getString("industry");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-30.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-30.10s", industry);
+                }
+                
+                partnerID = rs.getString("partnerID");
+                    System.out.printf("%-30.10s \n", partnerID);
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showTaxpayer() {
+        String sintp; //not null
+        String government_department;
+        String name;
+        String address;
+        String phoneT;
+        String amount_paid;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Taxpayer");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-25s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                sintp = rs.getString("SIN");
+                System.out.printf("%-25.10s", sintp);
+                
+                government_department = rs.getString("Government_department");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-25.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-25.10s", government_department);
+                }
+                
+                name = rs.getString("name");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-25.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-25.10s", name);
+                }
+                
+                address = rs.getString("address");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-25.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-25.10s", address);
+                }
+                
+                phoneT = rs.getString("phone#");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-25.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-25.10s", phoneT);
+                }
+                
+                amount_paid = rs.getString("amount_paid");if (rs.wasNull())
+                {
+                    System.out.printf("%-25.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-25.10s\n", amount_paid);
+                }
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showMonetary_Assistance() {
+        String supportID; //not null
+        String amount;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Monetary_Assistance");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-20.10s", supportID);
+                
+                amount = rs.getString("amount");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s\n", amount);
+                }
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showEmployment_Training() {
+        String supportID; //not null
+        String type;
+        String instructor;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Employment_Training");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-20.10s", supportID);
+                
+                type = rs.getString("type");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s", type);
+                }
+                
+                instructor = rs.getString("instructor");
+                if (rs.wasNull())
+                {
+                    System.out.printf("%-20.10s\n", " ");
+                }
+                else
+                {
+                    System.out.printf("%-20.10s\n", instructor);
+                }
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void showFacilitate() {
+        String partnerID; //not null
+        String supportID;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT * FROM Facilitate");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                partnerID = rs.getString("partnerID");
+                System.out.printf("%-20.10s", partnerID);
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-20.10s\n", supportID);
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    
     
     
     /*TODO all of following
