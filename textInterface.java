@@ -1016,16 +1016,21 @@ public class textInterface implements ActionListener
         try {
             if (primKey2 == "NULL" && primKey3 == "NULL")
             {
-            ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ?");
-            System.out.print("\n" + tableDel + " " + primKey + ": ");
+            
+                //try the above with the argument already filled in for delete, DELETE from government where department = 'finaltest'
+            //ps = con.prepareStatement("DELETE FROM Government WHERE department = 'newTest'");
+                System.out.print("\n" + tableDel + " " + primKey + ": ");
             primKeyData = in.readLine();
-            ps.setString(1, primKeyData);
+            ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = '" + primKeyData + "'");
+
 
             int rowCount = ps.executeUpdate();
             
             if (rowCount == 0)
             {
                 System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + " does not exist!");
+            } else {
+                System.out.println("Deleted");
             }
             
             con.commit();
@@ -1033,20 +1038,23 @@ public class textInterface implements ActionListener
             ps.close();
             }
             else if (primKey3 == "NULL") {
-                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ? AND " + primKey2 + " = ?");
                 System.out.print("\n" + tableDel + " " + primKey + ": ");
                 primKeyData = in.readLine();
-                ps.setString(1, primKeyData);
+                //ps.setString(1, primKeyData);
                 
                 System.out.print("\n" + tableDel + " " + primKey2 + ": ");
                 primKeyData2 = in.readLine();
-                ps.setString(2, primKeyData2);
+                //ps.setString(2, primKeyData2);
+                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = '" + primKeyData + "' AND " + primKey2 + " = '" + primKeyData2 + "'");
+
                 
                 int rowCount = ps.executeUpdate();
                 
                 if (rowCount == 0)
                 {
                     System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + ", "+ primKey2 + ": "+ primKeyData2 + " does not exist!");
+                } else {
+                    System.out.println("Deleted");
                 }
                 
                 con.commit();
@@ -1054,24 +1062,28 @@ public class textInterface implements ActionListener
                 ps.close();
                 
             } else {
-                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = ? AND " + primKey2 + " = ? AND " + primKey3 + " = ?");
+                
                 System.out.print("\n" + tableDel + " " + primKey + ": ");
                 primKeyData = in.readLine();
-                ps.setString(1, primKeyData);
+                //ps.setString(1, primKeyData);
                 
                 System.out.print("\n" + tableDel + " " + primKey2 + ": ");
                 primKeyData2 = in.readLine();
-                ps.setString(2, primKeyData2);
+                //ps.setString(2, primKeyData2);
                 
                 System.out.print("\n" + tableDel + " " + primKey3 + ": ");
                 primKeyData3 = in.readLine();
-                ps.setString(3, primKeyData3);
+                //ps.setString(3, primKeyData3);
+                
+                ps = con.prepareStatement("DELETE FROM " + tableDel + " WHERE " + primKey + " = '" + primKeyData + "' AND " + primKey2 + " = '" + primKeyData2 + "' AND " + primKey3 + " = '" + primKeyData3 + "'");
                 
                 int rowCount = ps.executeUpdate();
                 
                 if (rowCount == 0)
                 {
                     System.out.println("\n" + tableDel + " " + primKey + ": " + primKeyData + ", "+ primKey2 + ": "+ primKeyData2 + ", "+ primKey3 + ": "+ primKeyData3 + " does not exist!");
+                } else {
+                    System.out.println("Deleted");
                 }
                 
                 con.commit();
