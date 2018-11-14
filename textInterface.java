@@ -1305,7 +1305,7 @@ public class textInterface implements ActionListener
                     System.out.printf("%-20.10s", branchmanager);
                 }
                 
-                g_department = rs.getString("g_department");
+                g_department = rs.getString("Government_department");
                 System.out.printf("%-20.10s \n", g_department);
                 
             }
