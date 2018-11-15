@@ -237,10 +237,10 @@ public class textInterface implements ActionListener
 		    case 1:  insert(); break;
 		    case 2:  delete(); break;
 		    case 3:  show(); break;
-            case 4:  governmentQ(); break;
-            case 5:  taxpayerQ(); break;
-            case 6: partnerQ(); break;
-            case 7:  quit = true;
+            case 5:  governmentQ(); break;
+            case 6:  taxpayerQ(); break;
+            case 7: partnerQ(); break;
+            case 4:  quit = true;
             //case 8:  TODO
             //case 9:  TODO
             //case 10: TODO
