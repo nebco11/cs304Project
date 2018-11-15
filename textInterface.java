@@ -1201,7 +1201,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1214,20 +1214,20 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 department = rs.getString("department");
-                System.out.printf("%-20.10s", department);
+                System.out.printf("%-30.30s", department);
 
                 head_of_dep = rs.getString("head_of_department");
-                System.out.printf("%-20.10s", head_of_dep);
+                System.out.printf("%-30.30s", head_of_dep);
 
                 //if it can be null do this
                 division = rs.getString("division");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s \n", " ");
+                    System.out.printf("%-30.30s \n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s \n", division);
+                    System.out.printf("%-30.30s \n", division);
                 }
             }
             // close the statement;
@@ -1261,7 +1261,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1276,36 +1276,36 @@ public class textInterface implements ActionListener
                 address = rs.getString("address");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", address);
+                    System.out.printf("%-30.30s", address);
                 }
 
                 city = rs.getString("city");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", city);
+                    System.out.printf("%-30.30s", city);
                 }
 
                 //if it can be null do this
                 branchmanager = rs.getString("BranchManager");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", branchmanager);
+                    System.out.printf("%-30.30s", branchmanager);
                 }
 
                 g_department = rs.getString("Government_department");
-                System.out.printf("%-20.10s \n", g_department);
+                System.out.printf("%-30.30s \n", g_department);
 
             }
             // close the statement;
@@ -1343,7 +1343,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1358,72 +1358,72 @@ public class textInterface implements ActionListener
                 name = rs.getString("name");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", name);
+                    System.out.printf("%-30.30s", name);
                 }
 
                 address = rs.getString("address");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", address);
+                    System.out.printf("%-30.30s", address);
                 }
 
                 //if it can be null do this
                 phoneC = rs.getString("phone#");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", phoneC);
+                    System.out.printf("%-30.30s", phoneC);
                 }
 
                 sinC = rs.getString("SIN");
-                System.out.printf("%-20.10s", sinC);
+                System.out.printf("%-30.30s", sinC);
 
                 sb_city = rs.getString("sb_city");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", sb_city);
+                    System.out.printf("%-30.30s", sb_city);
                 }
                 sb_address = rs.getString("sb_address");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", sb_address);
+                    System.out.printf("%-30.30s", sb_address);
                 }
                 d_requested = rs.getString("date_requested");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", d_requested);
+                    System.out.printf("%-30.30s", d_requested);
                 }
                 type = rs.getString("type_requested");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s\n", type);
+                    System.out.printf("%-30.30s\n", type);
                 }
 
 
@@ -1458,7 +1458,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1471,27 +1471,27 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-20.10s", supportID);
+                System.out.printf("%-30.30s", supportID);
 
                 budget_given = rs.getString("budget_given");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", budget_given);
+                    System.out.printf("%-30.30s", budget_given);
                 }
 
                 //if it can be null do this
                 g_department = rs.getString("Government_department");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s \n", g_department);
+                    System.out.printf("%-30.30s \n", g_department);
                 }
             }
             // close the statement;
@@ -1523,7 +1523,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1536,20 +1536,20 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 SINisGiven = rs.getString("SIN");
-                System.out.printf("%-20.10s", SINisGiven);
+                System.out.printf("%-30.30s", SINisGiven);
 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-20.10s", supportID);
+                System.out.printf("%-30.30s", supportID);
 
                 //if it can be null do this
                 date_given = rs.getString("date_Given");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s \n", date_given);
+                    System.out.printf("%-30.30s \n", date_given);
                 }
             }
             // close the statement;
@@ -1595,22 +1595,22 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 Government_department = rs.getString("Government_department");
-                System.out.printf("%-30.10s", Government_department);
+                System.out.printf("%-30.30s", Government_department);
 
                 city = rs.getString("city");
-                System.out.printf("%-30.10s", city);
+                System.out.printf("%-30.30s", city);
 
                 address = rs.getString("address");
-                System.out.printf("%-30.10s", address);
+                System.out.printf("%-30.30s", address);
 
                 officeManager = rs.getString("officeManager");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-30.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-30.10s \n", officeManager);
+                    System.out.printf("%-30.30s \n", officeManager);
                 }
 
             }
@@ -1657,30 +1657,30 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 Government_department = rs.getString("Government_department");
-                System.out.printf("%-30.10s", Government_department);
+                System.out.printf("%-30.30s", Government_department);
 
                 comp_name = rs.getString("companyName");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-30.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-30.10s", comp_name);
+                    System.out.printf("%-30.30s", comp_name);
                 }
 
                 industry = rs.getString("industry");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-30.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-30.10s", industry);
+                    System.out.printf("%-30.30s", industry);
                 }
 
                 partnerID = rs.getString("partnerID");
-                    System.out.printf("%-30.10s \n", partnerID);
+                    System.out.printf("%-30.30s \n", partnerID);
 
             }
             // close the statement;
@@ -1715,7 +1715,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-25s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1728,55 +1728,55 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 sintp = rs.getString("SIN");
-                System.out.printf("%-25.10s", sintp);
+                System.out.printf("%-30.30s", sintp);
 
                 government_department = rs.getString("Government_department");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-25.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-25.10s", government_department);
+                    System.out.printf("%-30.30s", government_department);
                 }
 
                 name = rs.getString("name");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-25.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-25.10s", name);
+                    System.out.printf("%-30.30s", name);
                 }
 
                 address = rs.getString("address");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-25.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-25.10s", address);
+                    System.out.printf("%-30.30s", address);
                 }
 
                 phoneT = rs.getString("phone#");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-25.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-25.10s", phoneT);
+                    System.out.printf("%-30.30s", phoneT);
                 }
 
                 amount_paid = rs.getString("amount_paid");if (rs.wasNull())
                 {
-                    System.out.printf("%-25.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-25.10s\n", amount_paid);
+                    System.out.printf("%-30.30s\n", amount_paid);
                 }
 
 
@@ -1809,7 +1809,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1822,16 +1822,16 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-20.10s", supportID);
+                System.out.printf("%-30.30s", supportID);
 
                 amount = rs.getString("amount");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s\n", amount);
+                    System.out.printf("%-30.30s\n", amount);
                 }
 
             }
@@ -1864,7 +1864,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1877,26 +1877,26 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-20.10s", supportID);
+                System.out.printf("%-30.30s", supportID);
 
                 type = rs.getString("type");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s", " ");
+                    System.out.printf("%-30.30s", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s", type);
+                    System.out.printf("%-30.30s", type);
                 }
 
                 instructor = rs.getString("instructor");
                 if (rs.wasNull())
                 {
-                    System.out.printf("%-20.10s\n", " ");
+                    System.out.printf("%-30.30s\n", " ");
                 }
                 else
                 {
-                    System.out.printf("%-20.10s\n", instructor);
+                    System.out.printf("%-30.30s\n", instructor);
                 }
 
             }
@@ -1928,7 +1928,7 @@ public class textInterface implements ActionListener
             {
                 // get column name and print it
 
-                System.out.printf("%-20s", rsmd.getColumnName(i+1));
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
 
             System.out.println(" ");
@@ -1941,10 +1941,10 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
 
                 partnerID = rs.getString("partnerID");
-                System.out.printf("%-20.10s", partnerID);
+                System.out.printf("%-30.30s", partnerID);
 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-20.10s\n", supportID);
+                System.out.printf("%-30.30s\n", supportID);
 
             }
             // close the statement;
