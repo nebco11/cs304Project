@@ -216,8 +216,10 @@ public class textInterface implements ActionListener
 		System.out.print("========================User Menu========================\n");
         System.out.print("5.   Government User Menu\n");
         System.out.print("6.   Taxpayer User Menu\n");
-        System.out.print("7.   Partner User Menu\n");
+        System.out.print("7.   Support Branch User Menu\n");
         System.out.print("8.   Client User Menu\n");
+        System.out.print("9.   Instructor User Menu\n");
+
 
         //System.out.print("8.   TODO ");
         //System.out.print("9.  TODO ");
@@ -240,10 +242,11 @@ public class textInterface implements ActionListener
 		    case 3:  show(); break;
             case 5:  governmentQ(); break;
             case 6:  taxpayerQ(); break;
-            case 7: partnerQ(); break;
+            case 7:  sbQ(); break;
+            case 9:  instructorQ(); break;
+            case 8:  clientQ(); break;
+
             case 4:  quit = true;
-            //case 8:  TODO
-            //case 9:  TODO
             //case 10: TODO
             //case 11: TODO
             //case 12: TODO
@@ -1974,7 +1977,7 @@ public class textInterface implements ActionListener
                 System.out.print("1.   ------Find the Client receiving the highest amount of monetary assistance\n");
                 System.out.print("2.   ------Change instructor for given course\n");
                 System.out.print("3.   ------View Clients who are receiving training support from Partners\n");
-                System.out.print("4.   ------GQ4\n");
+                System.out.print("4.   ------View the address and city of support branches that are currently giving out monetary support\n");
 
                 System.out.print("5.  ------Back to menu\n ");
 
@@ -1986,7 +1989,7 @@ public class textInterface implements ActionListener
                     case 1:  gQ1HighestClient(); break;
                     case 2:  gQ2HUpdate(); break;
                     case 3:  gQ3ViewC(); break;
-                    case 4:  ; break;
+                    case 4:  gQ4ViewB(); break;
 
                     case 5:  governmentBack = true;
 
@@ -2166,6 +2169,55 @@ public class textInterface implements ActionListener
             System.out.println("Message: " + ex.getMessage());
         }
     }
+    private void gQ4ViewB() {
+        String sb_address;
+        String sb_city;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT DISTINCT Client.sb_address, Client.sb_city FROM Client, isGiven, Monetary_Assistance WHERE (isGiven.SIN = Client.SIN) AND (isGiven.supportID = Monetary_Assistance.supportID)");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                sb_address = rs.getString("sb_address");
+                System.out.printf("%-30.30s", sb_address);
+                
+                sb_city = rs.getString("sb_city");
+                System.out.printf("%-30.30s\n", sb_city);
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
 
     private void taxpayerQ() {
         boolean taxpayerBack;
@@ -2207,20 +2259,17 @@ public class textInterface implements ActionListener
 
         }
     }
-    private void partnerQ() {
-        boolean partnerBack;
+    private void sbQ() {
+        boolean sbBack;
         int choice;
-        partnerBack = false;
+        sbBack = false;
 
         try
         {
-            while (!partnerBack)
+            while (!sbBack)
             {
-                System.out.print("Welcome to the Partner company Menu! Please select one of the Queries!\n");
-                System.out.print("1.   ------PQ1\n");
-                System.out.print("2.   ------PQ2\n");
-                System.out.print("3.   ------PQ3\n");
-                System.out.print("4.   ------PQ4\n");
+                System.out.print("Welcome to the Support Branch Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------View the Number of Instructors for each course\n");
 
                 System.out.print("5.  ------Back to menu\n ");
 
@@ -2229,12 +2278,12 @@ public class textInterface implements ActionListener
                 System.out.println(" ");
                 switch(choice)
                 {
-                    case 1:  ; break;
+                    case 1:  spQ1ViewClassCount(); break;
                     case 2:  ; break;
                     case 3:  ; break;
                     case 4:  ; break;
 
-                    case 5:  partnerBack = true;
+                    case 5:  sbBack = true;
 
                 }
             }
@@ -2243,8 +2292,232 @@ public class textInterface implements ActionListener
         {
             System.out.println("IOException!");
 
-            partnerBack = true;
+            sbBack = true;
 
+        }
+    }
+    private void spQ1ViewClassCount() {
+        String type;
+        String countI;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT type, count(instructor) FROM Employment_Training GROUP BY type ORDER BY count(instructor) DESC");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                type = rs.getString("type");
+                System.out.printf("%-30.30s", type);
+                
+                countI = rs.getString("count(instructor)");
+                System.out.printf("%-30.30s\n", countI);
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+    }
+    
+    private void instructorQ() {
+        boolean instructorBack;
+        int choice;
+        instructorBack = false;
+        
+        try
+        {
+            while (!instructorBack)
+            {
+                System.out.print("Welcome to the Instructor company Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------View all current Students' names and phone numbers\n");
+                System.out.print("5.  ------Back to menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  iQ1ViewStudents(); break;
+                    case 2:  ; break;
+                    case 3:  ; break;
+                    case 4:  ; break;
+                        
+                    case 5:  instructorBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            instructorBack = true;
+            
+        }
+    }
+    private void iQ1ViewStudents() {
+        String cname;
+        String cphone;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("select * from EMP_Training_Students");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                cname = rs.getString("name");
+                System.out.printf("%-30.30s", cname);
+                
+                cphone = rs.getString("phone#");
+                System.out.printf("%-30.30s\n", cphone);
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    
+    private void clientQ() {
+        boolean clientBack;
+        int choice;
+        clientBack = false;
+        
+        try
+        {
+            while (!clientBack)
+            {
+                System.out.print("Welcome to the Client Menu! Please select one of the Queries!\n");
+                System.out.print("1.   ------Show all Tax Payments made to each government department\n");
+                
+                System.out.print("5.  ------Back to menu\n ");
+                
+                
+                choice = Integer.parseInt(in.readLine());
+                System.out.println(" ");
+                switch(choice)
+                {
+                    case 1:  cQ1ViewTaxAmounts(); break;
+                    case 2:  ; break;
+                    case 3:  ; break;
+                    case 4:  ; break;
+                        
+                    case 5:  clientBack = true;
+                        
+                }
+            }
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            clientBack = true;
+            
+        }
+    }
+    
+    private void cQ1ViewTaxAmounts() {
+        String amount;
+        String department;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("select * from Taxpayer_Amounts");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                amount = rs.getString("Amount_Paid");
+                System.out.printf("%-30.30s", amount);
+                
+                department = rs.getString("Government_Department");
+                System.out.printf("%-30.30s\n", department);
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
         }
     }
     /* TODO all of the following
