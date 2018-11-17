@@ -1979,8 +1979,10 @@ public class textInterface implements ActionListener
                 System.out.print("3.   ------View Clients who are receiving training support from Partners\n");
                 System.out.print("4.   ------View the address and city of support branches that are currently giving out monetary support\n");
                 System.out.print("5.   ------View the total budget given to a specific branch\n");
+                System.out.print("6.   ------View the monetary assistance a specific branch gives to its clients\n");
+                System.out.print("7.   ------View budgets over a specific amount\n");
 
-                System.out.print("6.  ------Back to menu\n ");
+                System.out.print("8.  ------Back to menu\n ");
 
 
                 choice = Integer.parseInt(in.readLine());
@@ -1992,7 +1994,10 @@ public class textInterface implements ActionListener
                     case 3:  gQ3ViewC(); break;
                     case 4:  gQ4ViewB(); break;
                     case 5:  gQ5TotalBudget(); break;
-                    case 6:  governmentBack = true;
+                    case 6:  gQ6ViewBranchOutflows(); break;
+                    case 7:  gQ7ViewBudgetOver(); break;
+
+                    case 8:  governmentBack = true;
 
                 }
             }
@@ -2277,6 +2282,129 @@ public class textInterface implements ActionListener
             System.out.println("Message: " + ex.getMessage());
         }
     }
+    private void gQ6ViewBranchOutflows() {
+        String amount;
+        String sb_city;
+        String sb_address;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            
+            System.out.print("\nCity of Branch: ");
+            sb_city = in.readLine();
+            
+            System.out.print("\nAddress of Branch: ");
+            sb_address = in.readLine();
+            
+            
+            rs = stmt.executeQuery("SELECT SUM (amount) FROM Monetary_Assistance, isGiven WHERE (Monetary_Assistance.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + sb_city + "') AND (sb_address = '" + sb_address + "'))");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                amount = rs.getString("SUM(amount)");
+                System.out.printf("%-30.30s", amount);
+                
+            
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void gQ7ViewBudgetOver() {
+        String supportID;
+        String budgetamount;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            stmt = con.createStatement();
+            
+            System.out.print("\nView budgets over what amount ($): ");
+            budgetamount = in.readLine();
+            
+            
+            
+            rs = stmt.executeQuery("SELECT supportID, budget_given FROM Support WHERE budget_given > '" + budgetamount + "'");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                supportID = rs.getString("supportID");
+                System.out.printf("%-30.30s\n", supportID);
+                
+                
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
 
     private void taxpayerQ() {
         boolean taxpayerBack;
@@ -2288,10 +2416,7 @@ public class textInterface implements ActionListener
             while (!taxpayerBack)
             {
                 System.out.print("Welcome to the Taxpayer Menu! Please select one of the Queries!\n");
-                System.out.print("1.   ------TQ1\n");
-                System.out.print("2.   ------TQ2\n");
-                System.out.print("3.   ------TQ3\n");
-                System.out.print("4.   ------TQ4\n");
+                System.out.print("1.   ------View how much of your money is going towards government programs\n");
 
                 System.out.print("5.  ------Back to menu\n ");
 
@@ -2300,7 +2425,7 @@ public class textInterface implements ActionListener
                 System.out.println(" ");
                 switch(choice)
                 {
-                    case 1:  ; break;
+                    case 1:  tQ1ViewPayment(); break;
                     case 2:  ; break;
                     case 3:  ; break;
                     case 4:  ; break;
@@ -2318,6 +2443,67 @@ public class textInterface implements ActionListener
 
         }
     }
+    private void tQ1ViewPayment() {
+        String amount_paid;
+        String nameT;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            
+            System.out.print("\nWhat is your name: ");
+            nameT = in.readLine();
+            
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT amount_paid FROM Taxpayer WHERE name = '" + nameT + "'");
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                amount_paid = rs.getString("amount_paid");
+                System.out.printf("%-30.30s\n", amount_paid);
+                
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (IOException e)
+        {
+            System.out.println("IOException!");
+            
+            
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+
+    }
+    
+    
+    
     private void sbQ() {
         boolean sbBack;
         int choice;
