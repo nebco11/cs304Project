@@ -2240,6 +2240,7 @@ public class textInterface implements ActionListener
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT SUM(budget_given) FROM Support, isGiven WHERE (Support.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + city + "') AND (sb_address = '" + address + "'))");
 
+<<<<<<< HEAD
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
@@ -2301,6 +2302,8 @@ public class textInterface implements ActionListener
             
             
             rs = stmt.executeQuery("SELECT SUM (amount) FROM Monetary_Assistance, isGiven WHERE (Monetary_Assistance.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + sb_city + "') AND (sb_address = '" + sb_address + "'))");
+=======
+>>>>>>> 64b6b1660c9bcd7bce282635a0228e6c336a2e44
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
@@ -2308,18 +2311,19 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
+<<<<<<< HEAD
                 
                 amount = rs.getString("SUM(amount)");
                 System.out.printf("%-30.30s", amount);
@@ -2327,11 +2331,19 @@ public class textInterface implements ActionListener
             
                 
                 
+=======
+
+                sum = rs.getString("SUM(budget_given)");
+                System.out.printf("%-30.30s", sum);
+
+
+
+>>>>>>> 64b6b1660c9bcd7bce282635a0228e6c336a2e44
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (IOException e)
