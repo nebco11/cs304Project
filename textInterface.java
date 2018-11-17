@@ -2010,7 +2010,7 @@ public class textInterface implements ActionListener
         String amount;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
@@ -2022,19 +2022,19 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 name = rs.getString("name");
                 if (rs.wasNull())
                 {
@@ -2044,7 +2044,7 @@ public class textInterface implements ActionListener
                 {
                     System.out.printf("%-30.30s", name);
                 }
-                
+
                 amount = rs.getString("MAX(amount)");
                 if (rs.wasNull())
                 {
@@ -2054,16 +2054,16 @@ public class textInterface implements ActionListener
                 {
                     System.out.printf("%-30.30s\n", amount);
                 }
-            
-              
-            
-                
-                
+
+
+
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
@@ -2075,24 +2075,24 @@ public class textInterface implements ActionListener
         String  instructor;
         String course;
         PreparedStatement  ps;
-        
+
         try
         {
-            
+
             System.out.print("\nInstructor name: ");
             instructor = in.readLine();
             System.out.print("\nSupport ID value of course to change: ");
             course = in.readLine();
-            
-            
-            
+
+
+
             ps = con.prepareStatement("update employment_training set instructor = '" + instructor + "' where supportid = '" + course + "'");
 
-            
+
             ps.executeUpdate();
-            
+
             con.commit();
-            
+
             ps.close();
         }
         catch (IOException e)
@@ -2122,11 +2122,11 @@ public class textInterface implements ActionListener
         String pname;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
-            rs = stmt.executeQuery("select c.name, c.phone#, support.supportid, partners.companyname from client c full outer join isgiven on c.sin=isgiven.sin inner join support on support.supportid=isgiven.supportid full outer join facilitate on facilitate.supportid=support.supportid join partners on partners.partnerid=facilitate.partnerid order by c.name");
+            rs = stmt.executeQuery("select c.name, c.phone#, support.supportid, partners.companyname from client c join isgiven on c.sin=isgiven.sin inner join support on support.supportid=isgiven.supportid join facilitate on facilitate.supportid=support.supportid join partners on partners.partnerid=facilitate.partnerid order by c.name");
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
@@ -2134,35 +2134,35 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 cname = rs.getString("name");
                 System.out.printf("%-30.30s", cname);
-                
+
                 cphone = rs.getString("phone#");
                 System.out.printf("%-30.30s", cphone);
-                
+
                 supportID = rs.getString("supportid");
                 System.out.printf("%-30.30s", supportID);
-                
+
                 pname = rs.getString("companyname");
                 System.out.printf("%-30.30s\n", pname);
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
@@ -2175,7 +2175,7 @@ public class textInterface implements ActionListener
         String sb_city;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
@@ -2187,31 +2187,31 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 sb_address = rs.getString("sb_address");
                 System.out.printf("%-30.30s", sb_address);
-                
+
                 sb_city = rs.getString("sb_city");
                 System.out.printf("%-30.30s\n", sb_city);
-                
-                
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
@@ -2225,7 +2225,7 @@ public class textInterface implements ActionListener
         String city;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             System.out.print("\nBranch City to view budget of: ");
@@ -2234,7 +2234,7 @@ public class textInterface implements ActionListener
             address = in.readLine();
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT SUM(budget_given) FROM Support, isGiven WHERE (Support.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + city + "') AND (sb_address = '" + address + "'))");
-            
+
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
@@ -2242,29 +2242,29 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 sum = rs.getString("SUM(budget_given)");
                 System.out.printf("%-30.30s", sum);
-                
-                
-                
+
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (IOException ex)
@@ -2360,7 +2360,7 @@ public class textInterface implements ActionListener
         String countI;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
@@ -2372,31 +2372,31 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 type = rs.getString("type");
                 System.out.printf("%-30.30s", type);
-                
+
                 countI = rs.getString("count(instructor)");
                 System.out.printf("%-30.30s\n", countI);
-                
-                
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
@@ -2405,12 +2405,12 @@ public class textInterface implements ActionListener
         }
 
     }
-    
+
     private void instructorQ() {
         boolean instructorBack;
         int choice;
         instructorBack = false;
-        
+
         try
         {
             while (!instructorBack)
@@ -2418,8 +2418,8 @@ public class textInterface implements ActionListener
                 System.out.print("Welcome to the Instructor company Menu! Please select one of the Queries!\n");
                 System.out.print("1.   ------View all current Students' names and phone numbers\n");
                 System.out.print("5.  ------Back to menu\n ");
-                
-                
+
+
                 choice = Integer.parseInt(in.readLine());
                 System.out.println(" ");
                 switch(choice)
@@ -2428,18 +2428,18 @@ public class textInterface implements ActionListener
                     case 2:  ; break;
                     case 3:  ; break;
                     case 4:  ; break;
-                        
+
                     case 5:  instructorBack = true;
-                        
+
                 }
             }
         }
         catch (IOException e)
         {
             System.out.println("IOException!");
-            
+
             instructorBack = true;
-            
+
         }
     }
     private void iQ1ViewStudents() {
@@ -2447,7 +2447,7 @@ public class textInterface implements ActionListener
         String cphone;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
@@ -2459,31 +2459,31 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 cname = rs.getString("name");
                 System.out.printf("%-30.30s", cname);
-                
+
                 cphone = rs.getString("phone#");
                 System.out.printf("%-30.30s\n", cphone);
-                
-                
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
@@ -2491,22 +2491,22 @@ public class textInterface implements ActionListener
             System.out.println("Message: " + ex.getMessage());
         }
     }
-    
+
     private void clientQ() {
         boolean clientBack;
         int choice;
         clientBack = false;
-        
+
         try
         {
             while (!clientBack)
             {
                 System.out.print("Welcome to the Client Menu! Please select one of the Queries!\n");
                 System.out.print("1.   ------Show all Tax Payments made to each government department\n");
-                
+
                 System.out.print("5.  ------Back to menu\n ");
-                
-                
+
+
                 choice = Integer.parseInt(in.readLine());
                 System.out.println(" ");
                 switch(choice)
@@ -2515,27 +2515,27 @@ public class textInterface implements ActionListener
                     case 2:  ; break;
                     case 3:  ; break;
                     case 4:  ; break;
-                        
+
                     case 5:  clientBack = true;
-                        
+
                 }
             }
         }
         catch (IOException e)
         {
             System.out.println("IOException!");
-            
+
             clientBack = true;
-            
+
         }
     }
-    
+
     private void cQ1ViewTaxAmounts() {
         String amount;
         String department;
         Statement  stmt;
         ResultSet  rs;
-        
+
         try
         {
             stmt = con.createStatement();
@@ -2547,31 +2547,31 @@ public class textInterface implements ActionListener
             for (int i = 0; i < numCols; i++)
             {
                 // get column name and print it
-                
+
                 System.out.printf("%-30s", rsmd.getColumnName(i+1));
             }
-            
+
             System.out.println(" ");
-            
+
             while(rs.next())
             {
                 // for display purposes get everything from Oracle
                 // as a string
-                
+
                 // simplified output formatting; truncation may occur
-                
+
                 amount = rs.getString("Amount_Paid");
                 System.out.printf("%-30.30s", amount);
-                
+
                 department = rs.getString("Government_Department");
                 System.out.printf("%-30.30s\n", department);
-                
-                
+
+
             }
             // close the statement;
             // the ResultSet will also be closed
             System.out.println("\n\n\n");
-            
+
             stmt.close();
         }
         catch (SQLException ex)
