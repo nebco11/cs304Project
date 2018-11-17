@@ -2240,8 +2240,6 @@ public class textInterface implements ActionListener
             stmt = con.createStatement();
             rs = stmt.executeQuery("SELECT SUM(budget_given) FROM Support, isGiven WHERE (Support.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + city + "') AND (sb_address = '" + address + "'))");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
