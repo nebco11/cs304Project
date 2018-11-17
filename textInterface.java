@@ -1978,8 +1978,9 @@ public class textInterface implements ActionListener
                 System.out.print("2.   ------Change instructor for given course\n");
                 System.out.print("3.   ------View Clients who are receiving training support from Partners\n");
                 System.out.print("4.   ------View the address and city of support branches that are currently giving out monetary support\n");
+                System.out.print("5.   ------View the total budget given to a specific branch\n");
 
-                System.out.print("5.  ------Back to menu\n ");
+                System.out.print("6.  ------Back to menu\n ");
 
 
                 choice = Integer.parseInt(in.readLine());
@@ -1990,8 +1991,8 @@ public class textInterface implements ActionListener
                     case 2:  gQ2HUpdate(); break;
                     case 3:  gQ3ViewC(); break;
                     case 4:  gQ4ViewB(); break;
-
-                    case 5:  governmentBack = true;
+                    case 5:  gQ5TotalBudget(); break;
+                    case 6:  governmentBack = true;
 
                 }
             }
@@ -2212,6 +2213,64 @@ public class textInterface implements ActionListener
             System.out.println("\n\n\n");
             
             stmt.close();
+        }
+        catch (SQLException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+        }
+    }
+    private void gQ5TotalBudget() {
+        String sum;
+        String address;
+        String city;
+        Statement  stmt;
+        ResultSet  rs;
+        
+        try
+        {
+            System.out.print("\nBranch City to view budget of: ");
+            city = in.readLine();
+            System.out.print("\nBranch Address to view budget of: ");
+            address = in.readLine();
+            stmt = con.createStatement();
+            rs = stmt.executeQuery("SELECT SUM(budget_given) FROM Support, isGiven WHERE (Support.supportID = isGiven.supportID) AND SIN IN (SELECT SIN FROM Client WHERE (sb_city = '" + city + "') AND (sb_address = '" + address + "'))");
+            
+            ResultSetMetaData rsmd = rs.getMetaData();
+            int numCols = rsmd.getColumnCount();
+            System.out.println(" ");
+            // display column names;
+            for (int i = 0; i < numCols; i++)
+            {
+                // get column name and print it
+                
+                System.out.printf("%-30s", rsmd.getColumnName(i+1));
+            }
+            
+            System.out.println(" ");
+            
+            while(rs.next())
+            {
+                // for display purposes get everything from Oracle
+                // as a string
+                
+                // simplified output formatting; truncation may occur
+                
+                sum = rs.getString("SUM(budget_given)");
+                System.out.printf("%-30.30s", sum);
+                
+                
+                
+            }
+            // close the statement;
+            // the ResultSet will also be closed
+            System.out.println("\n\n\n");
+            
+            stmt.close();
+        }
+        catch (IOException ex)
+        {
+            System.out.println("Message: " + ex.getMessage());
+
         }
         catch (SQLException ex)
         {
