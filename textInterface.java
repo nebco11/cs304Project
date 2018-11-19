@@ -395,7 +395,6 @@ public class textInterface implements ActionListener
 	    catch (SQLException ex2)
 	    {
 		System.out.println("Message: " + ex2.getMessage());
-            //TODO error handling
 		System.exit(-1);
 	    }
 	}
@@ -489,8 +488,7 @@ public class textInterface implements ActionListener
             sb_address = in.readLine();
             ps.setString(6, sb_address);
 
-            //TODO this might not be working...
-            //UPDATE is working!
+            
             SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
             System.out.print("\nDate requested: ");
             try {
@@ -530,7 +528,6 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
                 System.exit(-1);
             }
         }
@@ -578,7 +575,6 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
                 System.exit(-1);
             }
         }
@@ -602,8 +598,7 @@ public class textInterface implements ActionListener
             ps.setInt(2, supIDisGiven);
 
 
-            //TODO this might not be working...
-            //UPDATE is working!
+          
             SimpleDateFormat sdf1 = new SimpleDateFormat("dd-MM-yyyy");
             System.out.print("\nDate given: ");
             try{
@@ -638,7 +633,6 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
                 System.exit(-1);
             }
         }
@@ -691,7 +685,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -746,7 +740,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -810,7 +804,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -854,7 +848,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -902,7 +896,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -946,7 +940,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -1112,7 +1106,7 @@ public class textInterface implements ActionListener
             {
                 System.out.println("Message: " + ex2.getMessage());
                 System.exit(-1);
-                //TODO error handling
+                // error handling
             }
         }
     }
@@ -1176,7 +1170,7 @@ public class textInterface implements ActionListener
             {
                 con.close();
                 System.exit(-1);
-                //TODO error handling so it doesn't close on error
+                // error handling so it doesn't close on error
                 //needed for a good demo
             }
             catch (SQLException ex)
@@ -2115,7 +2109,7 @@ public class textInterface implements ActionListener
             catch (SQLException ex2)
             {
                 System.out.println("Message: " + ex2.getMessage());
-                //TODO error handling
+                // error handling
                 System.exit(-1);
             }
         }
@@ -2131,7 +2125,7 @@ public class textInterface implements ActionListener
         try
         {
             stmt = con.createStatement();
-            rs = stmt.executeQuery("select c.name, c.phone#, support.supportid, partners.companyname from client c join isgiven on c.sin=isgiven.sin inner join support on support.supportid=isgiven.supportid join facilitate on facilitate.supportid=support.supportid join partners on partners.partnerid=facilitate.partnerid order by c.name");
+            rs = stmt.executeQuery("select distinct c.name, c.phone#, support.supportid, partners.companyname from client c join isgiven on c.sin=isgiven.sin inner join support on support.supportid=isgiven.supportid join facilitate on facilitate.supportid=support.supportid join partners on partners.partnerid=facilitate.partnerid order by c.name");
             ResultSetMetaData rsmd = rs.getMetaData();
             int numCols = rsmd.getColumnCount();
             System.out.println(" ");
@@ -2347,6 +2341,7 @@ public class textInterface implements ActionListener
     }
     private void gQ7ViewBudgetOver() {
         String supportID;
+        String budget_given;
         String budgetamount;
         Statement  stmt;
         ResultSet  rs;
@@ -2382,9 +2377,10 @@ public class textInterface implements ActionListener
                 // simplified output formatting; truncation may occur
                 
                 supportID = rs.getString("supportID");
-                System.out.printf("%-30.30s\n", supportID);
+                System.out.printf("%-30.30s", supportID);
                 
-                
+                budget_given = rs.getString("budget_given");
+                System.out.printf("%-30.30s\n", budget_given);
                 
                 
             }
@@ -2765,34 +2761,6 @@ public class textInterface implements ActionListener
             System.out.println("Message: " + ex.getMessage());
         }
     }
-    /* TODO all of the following
-    private void query9() {
-
-    }
-    private void query10() {
-
-    }
-    private void query11() {
-
-    }
-    private void query12() {
-
-    }
-    private void query13() {
-
-    }
-    private void query14() {
-
-    }
-    private void query15() {
-
-    }
-    private void query16() {
-
-    }
-
-    */
-
     public static void main(String args[])
     {
         //TODO main
